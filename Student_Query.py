@@ -2,6 +2,7 @@
 import urllib.request
 import json
 import xls_json
+import log
 
 student_info = xls_json.get_studentinfo()
 
@@ -37,10 +38,11 @@ def get_failed(url):
 			kcxz = response_json[i]['kcxz']
 			xf = response_json[i]['xf']
 			cj = response_json[i]['cj']
-			response_list = [kcmc, kcxz, xf, cj]
-		return response_list
-	# else:
-	#
+			result_list = [kcmc, kcxz, xf, cj]
+		return result_list
+	else:
+		result_list.append('0')
+		return result_list
 
 def get_info():
 	info = input("请输入学号或姓名：")
@@ -60,12 +62,15 @@ def levelscore_action_out(result_list):
 				print(time + ": " + cet + ": " + score)
 
 def failed_action_out(result_list):
-	print("未通过科目：")
-	for value in result_list:
-		if value[-2:-1] == ".":
-			print("\n学分:" + value + " 成绩:", end="")
-		else:
-			print(value + " ", end="")
+	if result_list[0] == '0':
+		print("恭喜！无未通过课程--")
+	else:
+		print("未通过科目：")
+		for value in result_list:
+			if value[-2:-1] == ".":
+				print("\n学分:" + value + " 成绩:", end="")
+			else:
+				print(value + " ", end="")
 	print()
 
 # change to [{},{}] ?
@@ -107,4 +112,4 @@ if __name__ == '__main__':
 	levelscore_action_out(levelscore)
 	failed_action_out(failed)
 	query_record(XH, XM, proname, degreeavggpa, createscore)
-	
+

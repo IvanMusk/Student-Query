@@ -22,14 +22,13 @@ def get_studentinfo():
         return_data[no] = data
     return return_data
 
-# if __name__ == '__main__':
-#     return_json = get_studentinfo()
-#     data_str = json.dumps(return_json)
-#     with open('student_info.json', 'w', encoding='utf-8') as f:
-#         f.write(data_str)
-#         f.close()
-#     with open('student_info.json', 'r', encoding='utf-8') as f:
-#         get_data = f.read()
-#         f.close()
-#     data_json = json.loads(get_data)
-#     print(data_json['***'])
+if __name__ == '__main__':
+    return_json = get_studentinfo()
+    data_str = json.dumps(return_json)
+    with open('student_info.json', 'w', encoding='utf-8') as f:
+        f.write(data_str)
+        f.close()
+    with open('student_info.json', 'r', encoding='utf-8') as f:
+        get_data = f.read()
+        f.close()
+    data_json = json.loads(get_data)
