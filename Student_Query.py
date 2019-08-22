@@ -31,6 +31,7 @@ def get_levelscore(url):
 def get_failed(url):
 	response = urllib.request.urlopen(url)
 	response_json = json.loads(response.read())
+	# print(response_json)
 	result_list = []
 	if response_json != []:
 		for i in range(len(response_json)):
@@ -38,7 +39,8 @@ def get_failed(url):
 			kcxz = response_json[i]['kcxz']
 			xf = response_json[i]['xf']
 			cj = response_json[i]['cj']
-			result_list = [kcmc, kcxz, xf, cj]
+			result_list.append([kcmc, kcxz, xf, cj])
+		# print(result_list)
 		return result_list
 	else:
 		result_list.append('0')
@@ -65,13 +67,14 @@ def failed_action_out(result_list):
 	if result_list[0] == '0':
 		print("恭喜！无未通过课程--")
 	else:
-		print("未通过科目：")
-		for value in result_list:
-			if value[-2:-1] == ".":
-				print("\n学分:" + value + " 成绩:", end="")
-			else:
-				print(value + " ", end="")
-	print()
+		print("未通过科目：" + "共" + str(len(result_list)) + "门")
+		for result_list_item in result_list:
+			for value in result_list_item:
+				if value[1:2] == ".":
+					print("\n学分:" + value + " 成绩:", end="")
+				else:
+					print(value + " ", end="")
+			print("\n--------------------")
 
 # change to [{},{}] ?
 def query_record(no, name, proname, degreeavggpa, createscore):
@@ -85,7 +88,7 @@ if __name__ == '__main__':
 	XH = get_info()
 	XM = str(student_info[XH][0])
 	proname = str(student_info[XH][2])
-	path = "http://***"
+	path = "http://***/"
 	degreeavggpa_action = "Degreeavggpa?XH="
 	createscore_action = "createscore?XH="
 	levelscore_action = "getLevelScore?XH="
@@ -100,9 +103,6 @@ if __name__ == '__main__':
 	levelscore = get_levelscore(levelscore_url)
 	failed = get_failed(failed_url)
 
-
-
-
 	action_out = "学位课平均绩点：" + degreeavggpa + "\n创新创业学分：" + createscore
 	print("\n学号：" + XH)
 	print("姓名：" + XM)
@@ -112,4 +112,3 @@ if __name__ == '__main__':
 	levelscore_action_out(levelscore)
 	failed_action_out(failed)
 	query_record(XH, XM, proname, degreeavggpa, createscore)
-
